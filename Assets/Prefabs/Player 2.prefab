@@ -166,11 +166,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 228a00eb80865e0479a154cc75c8c165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardSpeed: 75
-  maxSpeed: 130
+  forwardSpeed: 90
+  maxSpeed: 150
   laneDistance: 25
   jumpForce: 50
-  Gravity: -80
+  Gravity: -100
   animator: {fileID: 3697282861199122515}
 --- !u!143 &3697282861199122523
 CharacterController:
