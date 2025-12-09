@@ -1,0 +1,11 @@
+﻿v1.2:
+> Added Demo Scene to show off a basic example
+> Changed to Dicitionary => Extreme Performance upgrade
+> Tooltips and script comments! :P
+
+v1.1:
+> Fixed ScriptableObject corruption
+> Optimized Performance
+
+v1.0:
+All basic features
