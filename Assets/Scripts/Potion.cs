@@ -9,8 +9,14 @@ public class Potion : MonoBehaviour
 
     void Start()
     {
-        // Determine random cost on spawn
-        cost = Random.Range(1, 31);
+        // Dynamic Cost based on Time
+        // Low at start (e.g., 1-5), increases as game goes on
+        float time = Time.timeSinceLevelLoad;
+        
+        int minCost = 1 + (int)(time / 20f); // Increases slowly (every 20s)
+        int maxCost = 5 + (int)(time / 5f);  // Increases faster (every 5s)
+        
+        cost = Random.Range(minCost, maxCost);
         
         // Update 3D Text
         if (priceTextObject != null)
@@ -19,14 +25,15 @@ public class Potion : MonoBehaviour
             if (tm != null)
             {
                 tm.text = cost.ToString();
-                tm.characterSize = 0.5f; 
-                tm.fontSize = 200; 
-                tm.color = Color.yellow; 
+                tm.characterSize = 0.1f; // Reduced from 0.5f
+                tm.fontSize = 60; // Reduced from 200
+                tm.color = Color.black;
                 tm.anchor = TextAnchor.MiddleCenter;
                 
                 // FORCE POSITION AND ROTATION
-                priceTextObject.transform.localPosition = new Vector3(0, 2f, 0); // 2 units above center
-                priceTextObject.transform.localRotation = Quaternion.Euler(0, 180, 0); // Face backwards (towards camera usually)
+                // Inside the potion (assuming pivot is bottom, 0.5f puts it roughly in middle vertically for standard shapes)
+                priceTextObject.transform.localPosition = new Vector3(0, -0.5f, 0); 
+                priceTextObject.transform.localRotation = Quaternion.Euler(0, 180, 0); 
                 
                 Debug.Log("Potion Price set to: " + cost);
             }

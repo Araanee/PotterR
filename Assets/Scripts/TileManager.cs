@@ -38,7 +38,7 @@ public class TileManager : MonoBehaviour
         activeTiles.Add(go);
         
         // Randomly spawn Potion (50% chance)
-        if (potionPrefab != null && Random.value < 0.5f)
+        if (potionPrefab != null && Random.value < 0.1f)
         {
             // Random Lane: -3, 0, or 3? (Assuming laneDistance is 3)
             float[] lanes = new float[] { -3f, 0f, 3f };
@@ -47,7 +47,8 @@ public class TileManager : MonoBehaviour
             // Random Z offset within the tile (0 to tileLength)
             float randomZ = Random.Range(10f, tileLength - 10f); // keep away from edges
             
-            Vector3 potionPos = go.transform.position + new Vector3(randomX, 1f, randomZ); 
+            // Increased Y from 1f to 2.5f to account for scale 10
+            Vector3 potionPos = go.transform.position + new Vector3(randomX, 10f, randomZ); 
             
             GameObject potion = Instantiate(potionPrefab, potionPos, Quaternion.identity);
             potion.transform.localScale = Vector3.one * 10f; // Scale up by 5 (Adjust as needed)

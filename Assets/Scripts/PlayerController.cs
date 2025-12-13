@@ -159,14 +159,23 @@ public class PlayerController : MonoBehaviour
                 targetPosition += Vector3.right * laneDistance;
             }
 
-            if (transform.position == targetPosition) return;
+            // UNIFIED MOVEMENT LOGIC
+            // Combine Forward/Vertical + Lateral movement
             Vector3 diff = targetPosition - transform.position;
-            Vector3 moveDir = diff.normalized * 75 * Time.deltaTime;
-
+            Vector3 moveDir = diff.normalized * 75 * Time.deltaTime; // Lateral speed
+            
+            // Limit lateral move to not over-shoot
+            Vector3 lateralMove = Vector3.zero;
             if (moveDir.sqrMagnitude < diff.sqrMagnitude)
-                controller.Move(moveDir);
+                lateralMove = moveDir;
             else
-                controller.Move(diff);
+                lateralMove = diff;
+                
+            // Forward and Vertical Move (from direction)
+            Vector3 forwardVerticalMove = direction * Time.deltaTime;
+            
+            // Final Move
+            controller.Move(forwardVerticalMove + lateralMove);
         }
     }
 
@@ -185,10 +194,10 @@ public class PlayerController : MonoBehaviour
         maxSpeed = maxSpeedLevels[level];
     }
 
-    private void FixedUpdate()
-    {
-        controller.Move(direction * Time.fixedDeltaTime);
-    }
+    // FixedUpdate removed to eliminate update desync
+
+
+
 
     private void Jump()
     {
@@ -239,6 +248,9 @@ public class PlayerController : MonoBehaviour
     {
         if (hit.transform.tag == "Obstacle")
         {
+            // Debug Log for Collision
+            Debug.Log("Hit Obstacle: " + hit.transform.name);
+            
             if (isInvincible)
             {
                  // Ignore collision or destroy obstacle? 
@@ -249,6 +261,11 @@ public class PlayerController : MonoBehaviour
             {
                  // Uncomment for real gameplay
                  PlayerManager.gameOver = true;
+                 
+                 // Hide Twist UI
+                 if (countdownText != null) countdownText.text = "";
+                 if (powerUpText != null) powerUpText.text = "";
+                 if (audioSource != null) audioSource.Stop();
             }
         }
     }
