@@ -5,6 +5,7 @@ using UnityEngine;
 public class TileManager : MonoBehaviour
 {
     public GameObject[] tilePrefabs;
+    public GameObject potionPrefab; // Add this reference
     private List<GameObject> activeTiles;
     public Transform playerTransform;
     public float zspawn = 0.0f;
@@ -35,6 +36,24 @@ public class TileManager : MonoBehaviour
     {
         GameObject go = Instantiate(tilePrefabs[tileIndex],transform.forward*zspawn,transform.rotation);
         activeTiles.Add(go);
+        
+        // Randomly spawn Potion (50% chance)
+        if (potionPrefab != null && Random.value < 0.5f)
+        {
+            // Random Lane: -3, 0, or 3? (Assuming laneDistance is 3)
+            float[] lanes = new float[] { -3f, 0f, 3f };
+            float randomX = lanes[Random.Range(0, lanes.Length)];
+            
+            // Random Z offset within the tile (0 to tileLength)
+            float randomZ = Random.Range(10f, tileLength - 10f); // keep away from edges
+            
+            Vector3 potionPos = go.transform.position + new Vector3(randomX, 1f, randomZ); 
+            
+            GameObject potion = Instantiate(potionPrefab, potionPos, Quaternion.identity);
+            potion.transform.localScale = Vector3.one * 10f; // Scale up by 5 (Adjust as needed)
+            potion.transform.SetParent(go.transform); // Move with tile (parenting)
+        }
+        
         zspawn += tileLength;
     }
 
