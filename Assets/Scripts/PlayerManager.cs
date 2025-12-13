@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using System;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -44,13 +45,15 @@ public class PlayerManager : MonoBehaviour
            
             if (theScoreManager.scoreCount != 0)
             {
-                finalsc.text = ishigh+Mathf.Round(theScoreManager.scoreCount);
+                finalsc.text = ishigh+Mathf.Round(theScoreManager.scoreCount + numberofCoins);
+                Console.WriteLine(finalsc.text);
             }
 
             Time.timeScale = 0;
             theScoreManager.scoreCount = 0;
-            theScoreManager.scoreIncreasing =true;
-            PlayerPrefs.SetInt("0",PlayerManager.numberofCoins);
+            theScoreManager.scoreIncreasing = true;
+            PlayerPrefs.SetInt("0",0);
+            PlayerPrefs.Save();
         }
         
         coinsText.text = ""+numberofCoins;
