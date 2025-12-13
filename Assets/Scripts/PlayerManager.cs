@@ -46,11 +46,9 @@ public class PlayerManager : MonoBehaviour
             if (theScoreManager.scoreCount != 0)
             {
                 finalsc.text = ishigh+Mathf.Round(theScoreManager.scoreCount + numberofCoins);
-                Console.WriteLine(finalsc.text);
             }
 
             Time.timeScale = 0;
-            theScoreManager.scoreCount = 0;
             theScoreManager.scoreIncreasing = true;
             PlayerPrefs.SetInt("0",0);
             PlayerPrefs.Save();

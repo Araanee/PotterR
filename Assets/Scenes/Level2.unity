@@ -1013,7 +1013,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: b60db7186ea3e72429a6d027e396e20f, type: 3}
-    m_FontSize: 80
+    m_FontSize: 65
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1105,7 +1105,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -82}
+  m_AnchoredPosition: {x: 0, y: -100}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &585733186
@@ -1189,7 +1189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0.47843137, g: 0.67058825, b: 0.7058824, a: 0.60784316}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1516,7 +1516,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: b60db7186ea3e72429a6d027e396e20f, type: 3}
-    m_FontSize: 80
+    m_FontSize: 65
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -3849,7 +3849,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.2627451, g: 0.2627451, b: 0.2627451, a: 0}
+  m_BackGroundColor: {r: 0.2031571, g: 0.1839326, b: 0.23584908, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -3890,7 +3890,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2003753244}
   m_LocalRotation: {x: 0.11320323, y: 0, z: 0, w: 0.9935719}
-  m_LocalPosition: {x: -0.6, y: 58, z: -71}
+  m_LocalPosition: {x: -0.6, y: 50.5, z: -63.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4133,7 +4133,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -235}
+  m_AnchoredPosition: {x: 0, y: -250}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2107971267
@@ -4217,7 +4217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0.47843137, g: 0.67058825, b: 0.7058824, a: 0.60784316}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4579,7 +4579,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1239708306437104913, guid: 35a23c89fd4f8a844b0e1d81baefb8fb, type: 3}
       propertyPath: maxSpeed
-      value: 200
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 1239708306437104913, guid: 35a23c89fd4f8a844b0e1d81baefb8fb, type: 3}
       propertyPath: jumpForce
@@ -4594,12 +4594,52 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1239708306437104913, guid: 35a23c89fd4f8a844b0e1d81baefb8fb, type: 3}
+      propertyPath: speedBoostAmount
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239708306437104913, guid: 35a23c89fd4f8a844b0e1d81baefb8fb, type: 3}
       propertyPath: groundLayer.m_Bits
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1239708306437104913, guid: 35a23c89fd4f8a844b0e1d81baefb8fb, type: 3}
       propertyPath: groundCheckDistance
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239708306437104913, guid: 35a23c89fd4f8a844b0e1d81baefb8fb, type: 3}
+      propertyPath: maxSpeedBoostAmount
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239708306437104913, guid: 35a23c89fd4f8a844b0e1d81baefb8fb, type: 3}
+      propertyPath: speedLevels.Array.data[0]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239708306437104913, guid: 35a23c89fd4f8a844b0e1d81baefb8fb, type: 3}
+      propertyPath: speedLevels.Array.data[1]
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239708306437104913, guid: 35a23c89fd4f8a844b0e1d81baefb8fb, type: 3}
+      propertyPath: speedLevels.Array.data[2]
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239708306437104913, guid: 35a23c89fd4f8a844b0e1d81baefb8fb, type: 3}
+      propertyPath: speedLevels.Array.data[3]
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239708306437104913, guid: 35a23c89fd4f8a844b0e1d81baefb8fb, type: 3}
+      propertyPath: maxSpeedLevels.Array.data[0]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239708306437104913, guid: 35a23c89fd4f8a844b0e1d81baefb8fb, type: 3}
+      propertyPath: maxSpeedLevels.Array.data[1]
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239708306437104913, guid: 35a23c89fd4f8a844b0e1d81baefb8fb, type: 3}
+      propertyPath: maxSpeedLevels.Array.data[2]
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239708306437104913, guid: 35a23c89fd4f8a844b0e1d81baefb8fb, type: 3}
+      propertyPath: maxSpeedLevels.Array.data[3]
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 1239708306437104918, guid: 35a23c89fd4f8a844b0e1d81baefb8fb, type: 3}
       propertyPath: sceneViewId

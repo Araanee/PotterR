@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -12,13 +12,20 @@ public class PlayerController : MonoBehaviour
     private int desiredLane = 0; //0:middle 1:right -1:left
     public float laneDistance = 3; // distance btwn 2 lanes
 
-    // PARAMÈTRES DE SAUT AMÉLIORÉS
-    public float jumpForce = 17f;        // Augmentez cette valeur pour sauter plus haut (8-15 recommandé)
-    public float Gravity = -30f;         // Gravité plus forte = saut plus rapide (-20 à -30 recommandé)
-    public float fallMultiplier = 2.5f;  // Fait tomber plus vite que la montée (optionnel)
+    // PARAMÃˆTRES DE SAUT AMÃ‰LIORÃ‰S
+    public float jumpForce = 17f;
+    public float Gravity = -30f;
+    public float fallMultiplier = 2.5f;
 
     public Animator animator;
     private bool isSliding = false;
+
+    // SYSTÃˆME DE NIVEAUX DE VITESSE SÃ‰QUENTIEL
+    public float[] speedLevels = { 10f, 15f, 20f, 25f };  // 4 niveaux de vitesse
+    public float[] maxSpeedLevels = { 15f, 20f, 25f, 30f }; // maxSpeed correspondants
+    public float speedChangeInterval = 5f;  // Intervalle entre chaque changement
+    private float speedTimer = 0f;
+    private int currentSpeedLevel = 0;
 
     PhotonView view;
 
@@ -26,13 +33,28 @@ public class PlayerController : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         view = GetComponent<PhotonView>();
+
+        // Commencer par la vitesse la plus faible (niveau 0)
+        currentSpeedLevel = 0;
+        ApplySpeedLevel(currentSpeedLevel);
+        speedTimer = 0f;
     }
 
     void Update()
     {
         if (!PlayerManager.gameOver && view.IsMine)
         {
-            if (forwardSpeed < maxSpeed) //increase speed
+            // Mise Ã  jour du timer de vitesse
+            speedTimer += Time.deltaTime;
+
+            // Changement de vitesse toutes les 5 secondes
+            if (speedTimer >= speedChangeInterval)
+            {
+                ChangeSpeedSequential();
+                speedTimer = 0f;
+            }
+
+            if (forwardSpeed < maxSpeed)
                 forwardSpeed += 0.1f * Time.deltaTime;
 
             direction.z = forwardSpeed;
@@ -50,7 +72,6 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                // Applique une gravité plus forte quand on descend (optionnel pour un meilleur feeling)
                 if (direction.y < 0)
                 {
                     direction.y += Gravity * fallMultiplier * Time.deltaTime;
@@ -98,6 +119,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void ChangeSpeedSequential()
+    {
+        // Passer au niveau suivant
+        currentSpeedLevel = (currentSpeedLevel + 1) % speedLevels.Length;
+        ApplySpeedLevel(currentSpeedLevel);
+
+        Debug.Log("Vitesse niveau " + (currentSpeedLevel + 1) + " - Vitesse: " + forwardSpeed);
+    }
+
+    private void ApplySpeedLevel(int level)
+    {
+        forwardSpeed = speedLevels[level];
+        maxSpeed = maxSpeedLevels[level];
+    }
+
     private void FixedUpdate()
     {
         controller.Move(direction * Time.fixedDeltaTime);
@@ -105,7 +141,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        direction.y = jumpForce; // Retiré le * 1.5f pour plus de contrôle via l'inspector
+        direction.y = jumpForce;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
