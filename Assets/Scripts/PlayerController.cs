@@ -93,9 +93,18 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if ((Input.GetKeyDown(KeyCode.DownArrow) || SwipeManager.swipeDown) && !isSliding)
+            if (Input.GetKeyDown(KeyCode.DownArrow) || SwipeManager.swipeDown)
             {
-                StartCoroutine(Slide());
+                if (!controller.isGrounded)
+                {
+                    // Fast Fall
+                    direction.y = -40f; 
+                    animator.SetBool("IsGrounded", true); // Prepare landing animation
+                }
+                else if (!isSliding)
+                {
+                    StartCoroutine(Slide());
+                }
             }
             
             // Twist: Reverse controls after 20 seconds
