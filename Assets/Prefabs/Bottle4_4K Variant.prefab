@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3160301079038136641
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6127669787621279706, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
+      propertyPath: m_Name
+      value: Bottle4_4K
+      objectReference: {fileID: 0}
+    - target: {fileID: 6991424074590138755, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6991424074590138755, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6991424074590138755, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6991424074590138755, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6991424074590138755, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6991424074590138755, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6991424074590138755, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6991424074590138755, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6991424074590138755, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6991424074590138755, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6991424074590138755, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
+--- !u!1 &9138505281055315611 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6127669787621279706, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
+  m_PrefabInstance: {fileID: 3160301079038136641}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &1529783962
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9138505281055315611}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1529783961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9138505281055315611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e1328b00f2962046a49c20e19310c3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  potionType: 1
+  priceTextObject: {fileID: 0}
+  effectDuration: 5

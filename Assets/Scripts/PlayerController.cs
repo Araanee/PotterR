@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public class PlayerController : MonoBehaviour
@@ -20,6 +21,15 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     private bool isSliding = false;
 
+    [Header("UI Settings")]
+    public Text powerUpText; // UI for Potions
+    public AudioSource audioSource;
+    public AudioClip potionClip; // Music for Invincibility Potion
+
+    [Header("Game Over Settings")]
+    public AudioClip mainMusicClip; // Assignez la musique principale ici
+    public AudioClip gameOverClip; // Le son de game over
+
     // SYSTÈME DE NIVEAUX DE VITESSE SÉQUENTIEL
     public float[] speedLevels = { 10f, 15f, 20f, 25f };  // 4 niveaux de vitesse
     public float[] maxSpeedLevels = { 15f, 20f, 25f, 30f }; // maxSpeed correspondants
@@ -28,6 +38,11 @@ public class PlayerController : MonoBehaviour
     private int currentSpeedLevel = 0;
 
     PhotonView view;
+
+    // Invincibility & Reverse
+    private bool isInvincible = false;
+    private bool reverseActive = false;
+    private Coroutine reverseCoroutine;
 
     void Start()
     {
@@ -64,7 +79,7 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("IsGrounded", true);
                 direction.y = -1;
 
-                if (Input.GetKeyDown(KeyCode.UpArrow) || SwipeManager.swipeUp)
+                if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space) || SwipeManager.swipeUp)
                 {
                     Jump();
                     animator.SetBool("IsGrounded", false);
@@ -82,20 +97,46 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            if ((Input.GetKeyDown(KeyCode.DownArrow) || SwipeManager.swipeDown) && !isSliding)
+            if (Input.GetKeyDown(KeyCode.DownArrow) || SwipeManager.swipeDown)
             {
-                StartCoroutine(Slide());
+                if (!controller.isGrounded)
+                {
+                    // Fast Fall
+                    direction.y = -40f;
+                    animator.SetBool("IsGrounded", true); // Prepare landing animation
+                }
+                else if (!isSliding)
+                {
+                    StartCoroutine(Slide());
+                }
             }
 
+            // CONTRÔLES AVEC INVERSION (POTION UNIQUEMENT)
             if (Input.GetKeyDown(KeyCode.RightArrow) || SwipeManager.swipeRight)
             {
-                desiredLane++;
-                if (desiredLane == 2) desiredLane = 1;
+                if (reverseActive)
+                {
+                    desiredLane--;
+                    if (desiredLane == -2) desiredLane = -1;
+                }
+                else
+                {
+                    desiredLane++;
+                    if (desiredLane == 2) desiredLane = 1;
+                }
             }
             if (Input.GetKeyDown(KeyCode.LeftArrow) || SwipeManager.swipeLeft)
             {
-                desiredLane--;
-                if (desiredLane == -2) desiredLane = -1;
+                if (reverseActive)
+                {
+                    desiredLane++;
+                    if (desiredLane == 2) desiredLane = 1;
+                }
+                else
+                {
+                    desiredLane--;
+                    if (desiredLane == -2) desiredLane = -1;
+                }
             }
 
             Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
@@ -108,14 +149,23 @@ public class PlayerController : MonoBehaviour
                 targetPosition += Vector3.right * laneDistance;
             }
 
-            if (transform.position == targetPosition) return;
+            // UNIFIED MOVEMENT LOGIC
+            // Combine Forward/Vertical + Lateral movement
             Vector3 diff = targetPosition - transform.position;
-            Vector3 moveDir = diff.normalized * 75 * Time.deltaTime;
+            Vector3 moveDir = diff.normalized * 75 * Time.deltaTime; // Lateral speed
 
+            // Limit lateral move to not over-shoot
+            Vector3 lateralMove = Vector3.zero;
             if (moveDir.sqrMagnitude < diff.sqrMagnitude)
-                controller.Move(moveDir);
+                lateralMove = moveDir;
             else
-                controller.Move(diff);
+                lateralMove = diff;
+
+            // Forward and Vertical Move (from direction)
+            Vector3 forwardVerticalMove = direction * Time.deltaTime;
+
+            // Final Move
+            controller.Move(forwardVerticalMove + lateralMove);
         }
     }
 
@@ -134,21 +184,120 @@ public class PlayerController : MonoBehaviour
         maxSpeed = maxSpeedLevels[level];
     }
 
-    private void FixedUpdate()
-    {
-        controller.Move(direction * Time.fixedDeltaTime);
-    }
-
     private void Jump()
     {
         direction.y = jumpForce;
     }
 
+    // ACTIVATION DE L'INVINCIBILITÉ (POTION)
+    public void ActivateInvincibility(float duration)
+    {
+        StartCoroutine(InvincibilityRoutine(duration));
+    }
+
+    // ACTIVATION DU REVERSE (POTION)
+    public void ActivateReverse(float duration)
+    {
+        if (reverseCoroutine != null)
+        {
+            StopCoroutine(reverseCoroutine);
+        }
+        reverseCoroutine = StartCoroutine(ReverseCoroutine(duration));
+    }
+
+    private IEnumerator InvincibilityRoutine(float duration)
+    {
+        isInvincible = true;
+        if (powerUpText != null) powerUpText.text = "Felix Felicis !";
+
+        // Play Potion Music
+        if (audioSource != null && potionClip != null)
+        {
+            audioSource.clip = potionClip;
+            audioSource.loop = true; // Loop if the clip is shorter than duration
+            audioSource.Play();
+        }
+
+        StartCoroutine(Clignoter());
+        Debug.Log("Invincibility Started!");
+
+        yield return new WaitForSeconds(duration);
+
+        isInvincible = false;
+        if (powerUpText != null) powerUpText.text = "";
+
+        // Stop Music
+        if (audioSource != null && audioSource.clip == potionClip)
+        {
+            audioSource.Stop();
+            audioSource.clip = mainMusicClip;
+            audioSource.Play();
+
+        }
+
+        Debug.Log("Invincibility Ended!");
+    }
+
+    private IEnumerator ReverseCoroutine(float duration)
+    {
+        reverseActive = true;
+
+        // Affichage UI
+        if (powerUpText != null) powerUpText.text = "REVERSE MODE";
+
+        Debug.Log("Reverse Mode Activated! Controls are inverted!");
+
+        yield return new WaitForSeconds(duration);
+
+        reverseActive = false;
+        if (powerUpText != null) powerUpText.text = "";
+        Debug.Log("Reverse Mode Deactivated! Controls are normal.");
+    }
+
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        Debug.Log("hit object");
         if (hit.transform.tag == "Obstacle")
         {
-            PlayerManager.gameOver = true;
+            Debug.Log("Hit Obstacle: " + hit.transform.name);
+
+            if (isInvincible)
+            {
+                StartCoroutine(Clignoter());
+            }
+            else
+            {
+                
+                PlayerManager.gameOver = true;
+
+                // Trouver et arrêter la musique principale
+                GameObject musicManager = GameObject.FindGameObjectWithTag("Music"); // ou FindWithTag
+                if (musicManager != null)
+                {
+                    AudioSource musicSource = musicManager.GetComponent<AudioSource>();
+                    if (musicSource != null && musicSource.isPlaying)
+                    {
+                        musicSource.Stop();
+                    }
+                }
+
+                // Stop Music
+                if (audioSource != null && audioSource.clip == potionClip)
+                {
+                    audioSource.Stop();
+                    audioSource.loop = false;
+                }
+
+                // Jouer le son de game over
+                if (gameOverClip != null)
+                {
+                    audioSource.PlayOneShot(gameOverClip);
+                }
+
+                // Hide UI
+                if (powerUpText != null) powerUpText.text = "";
+                
+            }
         }
     }
 
@@ -165,5 +314,19 @@ public class PlayerController : MonoBehaviour
         controller.height = 2;
         animator.SetBool("isSliding", false);
         isSliding = false;
+    }
+
+    private IEnumerator Clignoter()
+    {
+        // Blink effect
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+
+        for (int i = 0; i < 5; i++)
+        {
+            foreach (var r in renderers) r.enabled = false;
+            yield return new WaitForSeconds(0.1f);
+            foreach (var r in renderers) r.enabled = true;
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 }

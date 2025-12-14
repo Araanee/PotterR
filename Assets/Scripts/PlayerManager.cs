@@ -17,6 +17,7 @@ public class PlayerManager : MonoBehaviour
     public Coin Coins;
     public Text finalsc;
 
+
     void Start()
     {
         gameOver = false;
@@ -33,7 +34,7 @@ public class PlayerManager : MonoBehaviour
             }
         else
             {
-                ishigh = "YOUR SCORE IS: ";
+                ishigh = "YOUR SCORE IS ";
             }
 
         if (gameOver)

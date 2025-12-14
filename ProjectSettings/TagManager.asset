@@ -7,6 +7,8 @@ TagManager:
   - Obstacle
   - Coin
   - SpawnTrigger
+  - Bullet
+  - Music
   layers:
   - Default
   - TransparentFX
