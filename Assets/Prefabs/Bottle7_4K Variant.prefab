@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5089503296396824341, guid: c57b86fe1b79e924294d3936fe83f04b, type: 3}
       propertyPath: m_Name
-      value: Bottle7_4K
+      value: Bottle7_4K Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7964259801688199441, guid: c57b86fe1b79e924294d3936fe83f04b, type: 3}
       propertyPath: m_RootOrder
@@ -17,11 +17,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7964259801688199441, guid: c57b86fe1b79e924294d3936fe83f04b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.161
       objectReference: {fileID: 0}
     - target: {fileID: 7964259801688199441, guid: c57b86fe1b79e924294d3936fe83f04b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.056
       objectReference: {fileID: 0}
     - target: {fileID: 7964259801688199441, guid: c57b86fe1b79e924294d3936fe83f04b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -88,5 +88,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   potionType: 0
-  priceTextObject: {fileID: 0}
   effectDuration: 5

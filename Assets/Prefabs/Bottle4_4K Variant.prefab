@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6127669787621279706, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
       propertyPath: m_Name
-      value: Bottle4_4K
+      value: Bottle4_4K Variant
       objectReference: {fileID: 0}
     - target: {fileID: 6991424074590138755, guid: 615c8ae40e540334fbbadaf3a7f13c30, type: 3}
       propertyPath: m_RootOrder
@@ -88,5 +88,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   potionType: 1
-  priceTextObject: {fileID: 0}
   effectDuration: 5
